@@ -52,8 +52,11 @@ const Table = () => {
   }, [searchQuery]);
 
   const filterData = () => {
-    const filteredData = members.filter((member) =>
-      member.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredData = members.filter(
+      (member) =>
+        member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        member.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        member.role.toLowerCase().includes(searchQuery.toLowerCase())
     );
     paginateData(filteredData);
   };
@@ -108,13 +111,16 @@ const Table = () => {
       <View style={styles.inputAndButtonContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search by name..."
+          placeholder="Search by name, email, role..."
           placeholderTextColor="#888"
           onChangeText={(text) => setSearchQuery(text)}
           value={searchQuery}
         />
         <TouchableOpacity
-          style={styles.deleteButtonContainer}
+          style={[
+            styles.deleteButtonContainer,
+            { backgroundColor: checkedItems.length < 1 ? "#ccc" : "red" },
+          ]}
           disabled={checkedItems === 0}
         >
           <FontAwesome5
@@ -245,7 +251,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ccc",
     color: "#ccc",
-    outline: "none",
     width: "80%",
   },
   deleteButtonContainer: {

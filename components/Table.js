@@ -15,6 +15,7 @@ import {
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { filterData } from "../utils/SearchUtils";
 
 const TableRow = ({ rowData, handleCheckbox }) => (
   <View style={styles.row}>
@@ -48,18 +49,9 @@ const Table = () => {
   }, [members, page]);
 
   useEffect(() => {
-    filterData();
-  }, [searchQuery]);
-
-  const filterData = () => {
-    const filteredData = members.filter(
-      (member) =>
-        member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        member.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        member.role.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredData = filterData(members, searchQuery);
     paginateData(filteredData);
-  };
+  }, [searchQuery]);
 
   const paginateData = (data) => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -146,6 +138,7 @@ const Table = () => {
             <TableRow rowData={item} handleCheckbox={handleCheckbox} />
           )}
           keyExtractor={(item) => item.id.toString()}
+          scrollEnabled={false}
         />
       </ScrollView>
       {/* Pagination */}

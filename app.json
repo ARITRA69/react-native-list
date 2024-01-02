@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aritra69.reactnativelist"
     },
     "android": {
       "adaptiveIcon": {
